@@ -1,29 +1,114 @@
-import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import React, { useRef, useState } from 'react';
+import Lolly from '../components/lolly'
+import { useMutation, useQuery } from '@apollo/client';
+import gql from 'graphql-tag';
+import "./style.css";
+import { Link } from 'gatsby';
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+const GET_ALL = gql`
+  {
+    getVCard {
+      c1
+      c2
+      c3
+      rec
+      sender
+      msg
+    }
+  }
+`;
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
-  </Layout>
-)
+const ADD_VCARD = gql`
+  mutation addVCard(
+    $c1: String!
+    $c2: String!
+    $c3: String!
+    $rec: String!
+    $sender: String!
+    $msg: String!
+  ) {
+    addVCard(c1: $c1, c2: $c2, c3: $c3, rec: $rec, sender: $sender, msg: $msg) {
+      link
+    }
+  }
+`;
+export default function Home() {
 
-export default IndexPage
+    const [c1, setC1] = useState("#deaa43");
+    const [c2, setC2] = useState("#e95946");
+    const [c3, setC3] = useState("#d52358");
+
+    const [sender, setSender] = useState("");
+    const [receiver, setReceiver] = useState("");
+    const [message, setMessage] = useState("");
+
+    const [addVCard] = useMutation(ADD_VCARD);
+    const { loading, data, error } = useQuery(GET_ALL);
+
+    const handleSubmit =  () => {
+        
+
+        addVCard({
+            
+            variables: {
+                c1, c2, c3,
+                rec: receiver,
+                sender:sender,
+                msg: message
+            },
+        });
+    }
+
+    const senderField = useRef();
+    const recField = useRef();
+    const msgField = useRef();
+
+    
+ 
+    return (
+    <div className="container">
+        <h1>virtual lollipop</h1>
+        <div className="main-container">
+
+            <div className="">
+                <Lolly top={c1} middle={c2} bottom={c3} />
+                </div>
+                <div className="flavours">
+                  <label className="pickerLabel">
+                <input className="colourpicker" type="color" value={c1} onChange={(e) => { setC1(e.target.value) }} />
+                </label>
+                <label className="pickerLabel">
+                <input className="colourpicker" type="color" value={c2} onChange={(e) => { setC2(e.target.value) }} />
+                </label>
+                <label className="pickerLabel">
+                <input className="colourpicker" type="color" value={c3} onChange={(e) => { setC3(e.target.value) }} />
+                </label>
+
+                </div>
+                
+            
+            <div className="form-container">
+                <input  type="text" value={receiver} placeholder="To"  onChange={(e) => setReceiver(e.target.value)} required />
+                <textarea value={message}  placeholder="Enter your message!" onChange={(e) => setMessage(e.target.value)} required></textarea>
+                <input value={sender} type="text"  placeholder="From" onChange={(e) => setSender(e.target.value)} required />
+
+        <Link
+          style={{textDecoration:"none"}}
+            to="/getLolly"
+            state={{
+              c1: c1,
+              c2: c2,
+              c3: c3,
+              rec: receiver,
+              sender: sender,
+              msg: message,
+            }}
+            onClick={handleSubmit}
+          >
+            Send
+          </Link>
+            </div>
+        </div>
+    </div>
+    )
+}

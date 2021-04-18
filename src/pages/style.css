@@ -1,0 +1,100 @@
+body{
+    background-color: #21212b;
+    font-style: italic;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 35px; 
+    text-align: center;
+    background-color: #21212b;
+    color: white;
+
+    
+}
+.main-container {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+}
+
+
+.flavours{
+    display:block ;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 0;
+margin-bottom: 3em;
+}
+
+.colourpicker {
+    height: 60px;
+    width: 60px;
+    margin-top: -10px;
+    margin-left: -10px;
+    cursor: pointer;
+}
+
+.pickerLabel{
+    height: 40px;
+width: 40px;
+border-radius: 24px;
+border: 2px solid #fff;
+display: block;
+overflow: hidden;
+margin: 30px;
+box-shadow: 0 0 14px #000;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 5em;
+margin-bottom: 1.5em;
+background-color: rgba(0,0,0,.2);
+box-shadow: 0 0 10px rgba(0,0,0,.6);
+text-align: left;
+font-style: italic;
+font-size: 1.1em;
+    
+}
+
+.form-container > * {
+    margin: 10px 0;
+    padding: 8px 10px;
+    
+
+}
+
+.form-container > textarea {
+    height: 250px;
+}
+
+
+input[type="text"], textarea {
+    font-size: .9em;
+    width: 300px;
+    padding: .4em .2em;
+    margin: 0 -.2em;
+    border: 1px solid #fa73d9;
+    color: #fff;
+    background-color: #222;
+    box-shadow: 0 0 6px #fa73d9;
+}
+
+.btn {
+    margin-top: 1em;
+    box-shadow: 0 0 6px #fa73d9;
+    border: 2px solid #fa73d9;
+    background-color: transparent;
+    font-size: .9em;
+    color: #fa73d9;
+    padding: 1em 2em;
+    border-radius: 4em;
+    cursor: pointer;
+    transition: all .3s;
+}
